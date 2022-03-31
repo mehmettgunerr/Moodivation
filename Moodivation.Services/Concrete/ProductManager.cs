@@ -82,6 +82,8 @@ namespace Moodivation.Services.Concrete
             var added = await UnitOfWork.Products.AddAsync(product);
             await UnitOfWork.SaveAsync();
 
+            added.Category = category;
+
             return new DataResult<ProductDto>(ResultStatus.Success, Messages.Product.Add(product.Name), new ProductDto
             {
                 Product = added
