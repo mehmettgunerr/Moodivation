@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Moodivation.Data.Concrete.EntityFramework.Contexts;
 using Moodivation.Services.Extensions;
+using Moodivation.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +33,9 @@ namespace Moodivation
         {
             services.LoadServices(connectionString: Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers()
+                .AddFluentValidation((fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryCreateValidators>()))
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
