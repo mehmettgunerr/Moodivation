@@ -7,6 +7,7 @@ namespace Moodivation.Validators
     {
         public CategoryUpdateValidators()
         {
+            RuleFor(c => c.Id).NotEmpty().WithMessage("Enter category id");
             RuleFor(c => c.Name).NotEmpty().WithMessage("Enter category name");
         }
     }
